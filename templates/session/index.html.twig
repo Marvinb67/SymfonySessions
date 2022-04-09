@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste stagiaires{% endblock %}
+
+{% block body %}
+<h1 class="my-4">Liste des sessions</h1>
+
+<p><a href="{{ path('add_session') }}" class="btn btn-success">Ajouter une session</a></p>
+
+<h2>Session passé </h2>
+<table class="table table-hover">
+    <thead id="table-head">
+        <tr>
+            <th>Formations</th>
+            <th>Sessions</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for session in sessions %}
+        {% if session.dateDebut < mtn  and session.dateFin < mtn %} <tr>
+            <td><a href="{{ path('formation')}}">{{ session.formations }}</a></td>
+            <td>{{ session }}</td>
+            <td>{{ session.dateDebut | date('d-m-Y') }}</td>
+            <td>{{ session.dateFin | date('d-m-Y') }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+    </tbody>
+</table>
+<h2>Session En cour</h2>
+<table class="table table-hover">
+    <thead id="table-head">
+        <tr>
+            <th>Formations</th>
+            <th>Sessions</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>NB places theoriques</th>
+            <th>NB places réservé</th>
+            <th>NB places restantes</th>
+            <th>Détail programmes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for session in sessions %}
+        {% if session.dateDebut < mtn and session.dateFin> mtn %} <tr>
+                <td><a href="{{ path('formation')}}">{{ session.formations }}</a></td>
+                <td>{{ session }}</td>
+                <td>{{ session.dateDebut | date('d-m-Y') }}</td>
+                <td>{{ session.dateFin | date('d-m-Y') }}</td>
+                <td>{{ session.placesTheoriques }}</td>
+                <td>{{ session.placesR }}</td>
+                <td>{{ session.placesRestantes }}</td>
+                <td><a href="{{ path('detail', {'id': session.id}) }}">Détail</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+    </tbody>
+</table>
+<h2>Seesion à venir</h2>
+<table class="table table-hover">
+    <thead id="table-head">
+        <tr>
+            <th>Formations</th>
+            <th>Sessions</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>NB places theoriques</th>
+            <th>NB places réservé</th>
+            <th>NB places restantes</th>
+            <th>Détail programmes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for session in sessions %}
+        {% if session.dateDebut > mtn %} <tr>
+            <td><a href="{{ path('formation')}}">{{ session.formations }}</a></td>
+            <td>{{ session }}</td>
+            <td>{{ session.dateDebut | date('d-m-Y') }}</td>
+            <td>{{ session.dateFin | date('d-m-Y') }}</td>
+            <td>{{ session.placesTheoriques }}</td>
+            <td>{{ session.placesR }}</td>
+            <td>{{ session.placesRestantes }}</td>
+            <td><a href="{{ path('detail', {'id': session.id}) }}">Détail</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

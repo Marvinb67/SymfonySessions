@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste stagiaires{% endblock %}
+
+{% block body %}
+<h1>Liste des stagiaires</h1>
+<table class="table text-center">
+    <thead id="table-head">
+        <tr>
+            <th>Module</th>
+            <th>Nb jours</th>
+        </tr>
+        <tr>
+            <th colspan="2" class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for programme in programmes %}
+        <tr>
+            <td><a href="">{{ programme.modulesFormation.intitule }}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

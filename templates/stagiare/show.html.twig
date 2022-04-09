@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste stagiaires{% endblock %}
+
+{% block body %}
+    <div id="ficheStagiaire" class="my-3">        
+        <h1 class="text-light">Fiche stagiaire</h1>
+        <h2>{{ stagiaire }}</h2>
+        <p class="text-light">Sexe : {{ stagiaire.sexe }}</p>
+        <p class="text-light">Date de naissance : {{ stagiaire.dateNaissance | date('d-m-Y') }} ({{ stagiaire.age }})</p>
+        <p class="text-light">Ville : {{ stagiaire.ville }}</p>
+        <p class="text-light">Courriel : {{ stagiaire.email }}</p>
+        <p class="text-light">Telephone : {{ stagiaire.telephone }}</p>
+
+        <h2>Sessions prevue</h2>
+        <ul>
+            {% for session in stagiaire.sessions %}
+                <li class="text-light">{{ session.intitule }} (du {{ session.dateDebut | date('d-m-Y')}} au {{ session.dateFin | date('d-m-Y')}})</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
