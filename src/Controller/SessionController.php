@@ -133,14 +133,14 @@ class SessionController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('detail', [
-           'id' => $session->getId(),
-       ]);
+            'id' => $session->getId(),
+        ]);
     }
 
     /**
      * @Route("/session/{id}", name="detail")
      */
-    public function detail(Session $session, ManagerRegistry $doctrine, ModuleFormation $moduleF): Response
+    public function detail(Session $session, ManagerRegistry $doctrine): Response
     {
         $stagiaireNI = $doctrine->getRepository(Stagiaire::class)->getNonInscrits($session->getId());
         $modulesF = $doctrine->getRepository(ModuleFormation::class)->getNonPlanifier($session->getId());
