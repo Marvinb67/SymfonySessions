@@ -4,22 +4,26 @@
 
 {% block body %}
 <h1 class="my-4">Liste des formations</h1>
+
+{% if is_granted('ROLE_ADMIN') %}
+<p><a href="{{ path('add_formation') }}" class="btn btn-success">Ajouter une formation</a></p>
+{% endif %}
 <table class="table table-hover">
     <thead id="table-head">
         <tr>
             <th>Intitulé Formations</th>
             <th>Description</th>
-            <th colspan="3">Sessions</th>
+            <th>Sessions</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         {% for formation in formations %}
         <tr>
-            <td>{{ formation }}</td>
+            <td><a href="{{ path('show_formation', {'id': formation.id}) }}">{{ formation }}</a></td>
             <td>{{ formation.description }}</td>
-            {% for session in formation.sessions %}
-                <td><a href="{{ path('detail', {'id': session.id}) }}">{{ session }}</a></td>
-            {% endfor %}
+            <td>{{ formation.sessions | length() }}</td>
+            <td><a href="{{ path('update_formation', {'id': formation.id}) }}">Modifier</a></td>
         </tr>
         {% endfor %}
     </tbody>

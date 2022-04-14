@@ -45,6 +45,29 @@ class ModuleFormationRepository extends ServiceEntityRepository
         }
     }
 
+    public function getNonPlanifier($idSession)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+        $qb->select('s')
+            ->from('APP\Entity\ModuleFormation', 's')
+            ->leftJoin('s.planifiers', 'se')
+            ->where('se.id = :id');
+
+        $sub = $em->createQueryBuilder();
+        $sub->select('st')
+            ->from('App\Entity\ModuleFormation', 'st')
+            ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
+            ->setParameter('id', $idSession)
+            ->orderBy('st.categories');
+
+        $query = $sub->getQuery();
+
+        return $query->getResult();
+    }
+
     // /**
     //  * @return ModuleFormation[] Returns an array of ModuleFormation objects
     //  */

@@ -62,7 +62,7 @@ class Session
     private $formations;
 
     /**
-     * @ORM\OneToMany(targetEntity=Planifier::class, mappedBy="sessions")
+     * @ORM\OneToMany(targetEntity=Planifier::class, mappedBy="sessions", cascade={"persist"}, orphanRemoval = true)
      */
     private $planifiers;
 

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste stagiaires{% endblock %}
+
+{% block body %}
+<h1 class="my-4">Sessions | {{ formation }}</h1>
+<table class="table table-hover">
+    <table class="table table-hover">
+        <thead id="table-head">
+            <tr>
+                <th>Formations</th>
+                <th>Sessions</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Inscrits</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in formation.sessions %}
+            {% if (session.dateDebut < mtn and session.dateFin > mtn) or ( session.dateDebut > mtn) %} <tr>
+                    <td>{{ formation }}</td>
+                    <td><a href="{{ path('detail', {'id': session.id}) }}">{{ session }}</a></td>
+                    <td>{{ session.dateDebut | date('d-m-Y') }}</td>
+                    <td>{{ session.dateFin | date('d-m-Y') }}</td>
+                    <td>{{ session.placesR }} / {{ session.placesTheoriques }}</td>
+                    <td><a href="{{ path('update_session', {'id': session.id}) }}">Modifier</a></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}

@@ -5,8 +5,9 @@
 {% block body %}
 <h1 class="my-4">Liste des sessions</h1>
 
+{% if is_granted('ROLE_ADMIN') %}
 <p><a href="{{ path('add_session') }}" class="btn btn-success">Ajouter une session</a></p>
-
+{% endif%}
 <h2>Session passé </h2>
 <table class="table table-hover">
     <thead id="table-head">
@@ -15,21 +16,23 @@
             <th>Sessions</th>
             <th>Date de début</th>
             <th>Date de fin</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         {% for session in sessions %}
-        {% if session.dateDebut < mtn  and session.dateFin < mtn %} <tr>
-            <td><a href="{{ path('formation')}}">{{ session.formations }}</a></td>
-            <td>{{ session }}</td>
+        {% if session.dateDebut < mtn and session.dateFin < mtn %} <tr>
+            <td>{{ session.formations }}</td>
+            <td><a href="{{ path('detail', {'id': session.id}) }}">{{ session }}</a></td>
             <td>{{ session.dateDebut | date('d-m-Y') }}</td>
             <td>{{ session.dateFin | date('d-m-Y') }}</td>
+            <td><a href="{{ path('update_session', {'id': session.id}) }}">Modifier</a></td>
             </tr>
             {% endif %}
             {% endfor %}
     </tbody>
 </table>
-<h2>Session En cour</h2>
+<h2>Session en cours</h2>
 <table class="table table-hover">
     <thead id="table-head">
         <tr>
@@ -37,29 +40,25 @@
             <th>Sessions</th>
             <th>Date de début</th>
             <th>Date de fin</th>
-            <th>NB places theoriques</th>
-            <th>NB places réservé</th>
-            <th>NB places restantes</th>
-            <th>Détail programmes</th>
+            <th>Inscrits</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         {% for session in sessions %}
         {% if session.dateDebut < mtn and session.dateFin> mtn %} <tr>
-                <td><a href="{{ path('formation')}}">{{ session.formations }}</a></td>
-                <td>{{ session }}</td>
+                <td>{{ session.formations }}</td>
+                <td><a href="{{ path('detail', {'id': session.id}) }}">{{ session }}</a></td>
                 <td>{{ session.dateDebut | date('d-m-Y') }}</td>
                 <td>{{ session.dateFin | date('d-m-Y') }}</td>
-                <td>{{ session.placesTheoriques }}</td>
-                <td>{{ session.placesR }}</td>
-                <td>{{ session.placesRestantes }}</td>
-                <td><a href="{{ path('detail', {'id': session.id}) }}">Détail</a></td>
+                <td>{{ session.placesR }} / {{ session.placesTheoriques }}</td>
+                <td><a href="{{ path('update_session', {'id': session.id}) }}">Modifier</a></td>
             </tr>
             {% endif %}
             {% endfor %}
     </tbody>
 </table>
-<h2>Seesion à venir</h2>
+<h2>Session à venir</h2>
 <table class="table table-hover">
     <thead id="table-head">
         <tr>
@@ -67,26 +66,23 @@
             <th>Sessions</th>
             <th>Date de début</th>
             <th>Date de fin</th>
-            <th>NB places theoriques</th>
-            <th>NB places réservé</th>
-            <th>NB places restantes</th>
-            <th>Détail programmes</th>
+            <th>Inscrits</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         {% for session in sessions %}
-        {% if session.dateDebut > mtn %} <tr>
-            <td><a href="{{ path('formation')}}">{{ session.formations }}</a></td>
-            <td>{{ session }}</td>
+        {% if session.dateDebut > mtn %}
+        <tr>
+            <td>{{ session.formations }}</td>
+            <td><a href="{{ path('detail', {'id': session.id}) }}">{{ session }}</a></td>
             <td>{{ session.dateDebut | date('d-m-Y') }}</td>
             <td>{{ session.dateFin | date('d-m-Y') }}</td>
-            <td>{{ session.placesTheoriques }}</td>
-            <td>{{ session.placesR }}</td>
-            <td>{{ session.placesRestantes }}</td>
-            <td><a href="{{ path('detail', {'id': session.id}) }}">Détail</a></td>
-            </tr>
-            {% endif %}
-            {% endfor %}
+            <td>{{ session.placesR }} / {{ session.placesTheoriques }}</td>
+            <td><a href="{{ path('update_session', {'id': session.id}) }}">Modifier</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
     </tbody>
 </table>
 {% endblock %}

@@ -14,7 +14,7 @@
 </div>
 
 <div id="inscrits">
-    <h2 class="text-danger">Liste des inscrits</h2>
+    <h2 class="text-danger">Liste des inscrits {{ session.stagiaires | length }}</h2>
 
     <h1>Liste des stagiaires</h1>
     <table class="table table-stripped table-sm">
@@ -23,20 +23,22 @@
                 <th>Stagiaire</th>
                 <th>Email</th>
                 <th>Telephone</th>
+                <th>Désinscrire</th>
             </tr>
         </thead>
         <tbody>
             {% for stagiaire in session.stagiaires %}
                 <tr>
-                    <td>{{ stagiaire }}</td>
+                    <td><a href="{{ path('show_stagiaire', {'id': stagiaire.id}) }}">{{ stagiaire }}</a></td>
                     <td>{{ stagiaire.email }}</td>
                     <td>{{ stagiaire.telephone }}</td>
+                    <td><a href="{{ path('removeStagiaire', {'idStagiaire': stagiaire.id, 'idSession': session.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
                 </tr>
             {% endfor %}
     </table>
 </div>
 
-<h2>Stagiaires non-inscrit</h2>
+<h2>Stagiaires non-inscrit {{ stagiaireNI | length }}</h2>
 
 <div>
     <table class="table table-stripped table-sm">
@@ -45,28 +47,30 @@
                 <th>Stagiaire</th>
                 <th>Email</th>
                 <th>Telephone</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for pas_la in stagiaire %}
+            {% for non_inscrits in stagiaireNI %}
                 <tr>
-                    <td>{{ pas_la.nom}} {{ pas_la.prenom }}</td>
-                    <td>{{ pas_la.email }}</td>
-                    <td>{{ pas_la.telephone }}</td>
+                    <td><a href="{{ path('show_stagiaire', {'id': non_inscrits.id}) }}">{{ non_inscrits.nom}} {{ non_inscrits.prenom }}</a></td>
+                    <td>{{ non_inscrits.email }}</td>
+                    <td>{{ non_inscrits.telephone }}</td>
+                    <td><a href="{{ path('addStagiaire', {'idStagiaire': non_inscrits.id, 'idSession': session.id}) }}">Inscrire</a></td>                   
                 </tr>
             {% endfor %}
     </table>
 </div>
 
 <div id="programme">
+    <h2>Programme</h2>
     <table class="table table-stripped table-sm">
         <thead id="table-head">
             <tr>
                 <th>Module</th>
                 <th>Matiere</th>
                 <th>Duree</th>
-                <th>Modifier</th>
-                <th>Supprimer</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -75,6 +79,30 @@
                     <td>{{ programme.modulesFormation.intitule }}</td>
                     <td>{{ programme.modulesFormation.categories.intitule }}</td>
                     <td>{{ programme.duree }} jours</td>
+                    <td><a href="{{ path('removeModule', {'idSession': session.id, 'idPlanifier': programme.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+            {% endfor %}
+    </table>
+
+    <h2>Modules non programmé</h2>
+    <table class="table table-stripped table-sm">
+        <thead id="table-head">
+            <tr>
+                <th>Module</th>
+                <th>Matiere</th>
+                <th>Duree</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for programmeNI in modulesF %}
+                <tr>
+                    <form action="{{ path('programmeModule', {'idSession': session.id, 'idModule': programmeNI.id}) }}" method="post">
+                        <td>{{ programmeNI.intitule }}</td>
+                        <td>{{ programmeNI.categories.intitule }}</td>
+                        <td><input type="number" name="jours" id="jours" min="1" value="1"> jours</td>
+                        <td><input type="submit" value="Ajouter" name="ajouter" class="btn btn-success"></td>
+                    </form>
                 </tr>
             {% endfor %}
     </table>
