@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
@@ -19,6 +20,14 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class)
             ->add('pseudo', TextType::class)
             ->add('plainPassword', RepeatedType::class, [
+                // 'constraints' => [
+                //     new Regex([
+                //         'pattern' => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/",
+                //         'match' => true,
+                //         'message' => 'Veuillez entrer un mot de passe valide',
+                //     ]),
+                // ],
+
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'type' => PasswordType::class,
