@@ -17,7 +17,7 @@
             {% for stagiaire in stagiaires %}
                 <tr>
                     <td><a href="{{ path('show_stagiaire', {'id': stagiaire.id}) }}">{{ stagiaire }}</a></td>
-                    <td><a href="{{ path('update_stagiaire', {'id': stagiaire.id}) }}">Modifier</a> <a href=""> Supprimer</a></td>
+                    <td><a href="{{ path('update_stagiaire', {'id': stagiaire.id}) }}">Modifier</a> <a href="{{ path('delete_stagiaire', {'id': stagiaire.id})}}"> Supprimer</a></td>
                 </tr>
             {% endfor %}
         </tbody>

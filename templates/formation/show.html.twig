@@ -8,7 +8,6 @@
     <table class="table table-hover">
         <thead id="table-head">
             <tr>
-                <th>Formations</th>
                 <th>Sessions</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
@@ -19,7 +18,6 @@
         <tbody>
             {% for session in formation.sessions %}
             {% if (session.dateDebut < mtn and session.dateFin > mtn) or ( session.dateDebut > mtn) %} <tr>
-                    <td>{{ formation }}</td>
                     <td><a href="{{ path('detail', {'id': session.id}) }}">{{ session }}</a></td>
                     <td>{{ session.dateDebut | date('d-m-Y') }}</td>
                     <td>{{ session.dateFin | date('d-m-Y') }}</td>
